@@ -68,9 +68,6 @@ class Verifier(private val regioes: Tabuleiro, private val tamanho: Int) {
 
   // Obtem os valores ortogonais ao ponto
   def obterValoresOrtogonais(tabuleiro: Tabuleiro, posicao: Posicao): List[Int] = {
-    val linhas = tabuleiro.length
-    val colunas = tabuleiro(0).length
-
     val direcoes = List(
       (-1, 0), // Cima
       (1, 0),  // Baixo
@@ -78,11 +75,11 @@ class Verifier(private val regioes: Tabuleiro, private val tamanho: Int) {
       (0, 1)   // Direita
     )
 
-    direcoes.flatMap { case (dRow, dCol) =>
-      val newRow = posicao._1 + dRow
-      val newCol = posicao._2 + dCol
-      if (newRow >= 0 && newRow < linhas && newCol >= 0 && newCol < colunas)
-        Some(tabuleiro(newRow)(newCol))
+    direcoes.flatMap { case (dlinha, dcoluna) =>
+      val novaLinha = posicao._1 + dlinha
+      val novaColuna = posicao._2 + dcoluna
+      if (novaLinha >= 0 && novaLinha < tamanho && novaColuna >= 0 && novaColuna < tamanho)
+        Some(tabuleiro(novaLinha)(novaColuna))
       else
         None
     }.filter(a => a != 0)

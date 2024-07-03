@@ -6,7 +6,7 @@ type Tabuleiro = Matriz[Int]
 type Posicao = (Int, Int)
 
 def obterValor(tabuleiro: Tabuleiro, posicao: Posicao) = {
-  tabuleiro(posicao._1)(posicao._2)
+  tabuleiro.lift(posicao._1).flatMap(_.lift(posicao._2)).getOrElse(0)
 }
 
 def mostrarMatriz(tabuleiro: Tabuleiro) = {
