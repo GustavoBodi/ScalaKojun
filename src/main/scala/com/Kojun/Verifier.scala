@@ -49,16 +49,13 @@ class Verifier(private val regioes: Tabuleiro, private val tamanho: Int) {
     val emCima = posicao._1 + 1
     val regiao = obterIdentificadorRegiao(posicao)
 
-    def getValue(r: Int, c: Int): Option[Int] =
-      if (r >= 0 && r < tamanho && c >= 0 && c < tamanho) Some(tabuleiro(r)(c)) else None
-
-    val valorEmCima = getValue(emCima, posicao._2)
+    val valorEmCima = obterValorDentro(tabuleiro, tamanho, (emCima, posicao._2))
     val valorEmCimaFiltrado = valorEmCima match {
       case Some(value) if regiao == obterIdentificadorRegiao(emCima, posicao._2) => Some(value)
       case _ => None
     }
 
-    val valorEmbaixo = getValue(embaixo, posicao._2)
+    val valorEmbaixo = obterValorDentro(tabuleiro, tamanho, (embaixo, posicao._2))
     val valorEmbaixoFiltrado = valorEmbaixo match {
       case Some(value) if regiao == obterIdentificadorRegiao(embaixo, posicao._2) => Some(value)
       case _ => None
@@ -111,7 +108,7 @@ class Verifier(private val regioes: Tabuleiro, private val tamanho: Int) {
       Some(tabuleiro)
     } else {
       val (proximaLinha, proximaColuna) = proximaPosicao(linha, coluna)
-      if (tabuleiro(linha)(coluna) != 0) {
+      if (obterValor(tabuleiro, (linha, coluna)) != 0) {
         solveBoard(tabuleiro, proximaLinha, proximaColuna)
       } else {
         (1 to obterTamanhoRegiao((linha, coluna))).find { num =>
